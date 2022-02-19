@@ -85,7 +85,36 @@ table(is.na(merged_CustSubs$SubscriptionID)) #No subscriptionID null values
 
 
 ```
+ 
+ 
+Make use of visuals (e.g., plots in R, ggplots) to ‘show’ and back up your suggestions. Also, try to come up with solutions to possible issues with data quality that show up in the data. 
 ```{r, exercise 1.3} 
+#require(lubridate)
+library(ggplot2)
+library(lubridate)
+
+#a. Are the number of subscriptions and customers declining?  
+
+
+#b. How old are the customers?  
+customers
+#change dob to age first
+
+
+
+customers$DOB
+str(customers)
+#sysdate is of format 2022-02-19
+#dob is of format 09/11/1934 but is not a date format. It's a character
+
+
+
+#c. How is the amount of credit evolving over time and what actions do we need to take?  
+
+
+#d. What is the most common complaint? Why does it happen? What is the solution? 
+table(complaints$ComplaintType) #Most common complaint is type 1
+table(complaints$SolutionType) #Most common solution is type 1, but also 452 Null values
 
 ```
 
