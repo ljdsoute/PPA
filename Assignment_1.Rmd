@@ -30,6 +30,10 @@ A newspaper publishing company (NPC) has contacted you to address their increasi
 
 1. Read in the data and get familiar with the data.  
 2. Make an ERD. You should also test the relationships of the ERD using R.  You can do this by merging the different tables and counting the occurrence of each ID. For example, you can merge the tables customer and subscription and count the number of customers per subscription and vice versa
+```{r pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+knitr::include_graphics("ERD.png")
+```
+
 3. NPC’s management would like some answers on the following questions: 
   a. Are the number of subscriptions and customers declining?  
   b. How old are the customers?  
@@ -40,10 +44,51 @@ Make use of visuals (e.g., plots in R, ggplots) to ‘show’ and back up your s
  
 4. Make  predictors  for  5  columns  from  the  Subscriptions  table.  For  the  Customers  table,  the  company  is  only interested in gender. For the Credit and Complaints table, they are only interested in the number of credit lines and the number of  complaints. Merge all tables by CustomerID. Impute the variables when necessary. You can assume that the end of the independent period is today.
 
-```{r exercise 1}
+```{r exercise 1.1}
+customers <-read.csv("customers.txt", header=TRUE, sep = ';')
+customers
+subscriptions <-read.csv("subscriptions.txt", header=TRUE, sep = ';')
+subscriptions
+complaints <-read.csv("complaints.txt", header=TRUE, sep = ';')
+complaints
+credit <-read.csv("credit.txt", header=TRUE, sep = ';')
+credit
+
+```
+```{r exercise 1.2}
+complaints
+customers
+subscriptions
+credit
+
+merged_CustComp <- merge(customers, complaints, by = "CustomerID")
+merged_CustComp
+unique(merged_CustComp['CustomerID']) #514 unique CustomerID's in merge (1:N relationship)
+unique(merged_CustComp['ComplaintID']) #1621 unique ComplaintID's in merge (1:N relationship)
+table(is.na(merged_CustComp$CustomerID)) #No customerID null values
+table(is.na(merged_CustComp$ComplaintID)) #No complaintID null values
+
+
+merged_CredSubs <- merge(subscriptions, credit, by = "SubscriptionID")
+merged_CredSubs
+unique(merged_CredSubs['SubscriptionID']) #680 unique SubscriptionID's in merge (1:N relationship) ~every subscriptionID has a different creditID
+unique(merged_CredSubs['CreditID']) #1180 unique CreditID's in merge (1:1 relationship) 
+table(is.na(merged_CredSubs$SubscriptionID)) #No subscriptionID null values
+table(is.na(merged_CredSubs$CreditID)) #No creditID null values
+
+merged_CustSubs <- merge(customers, subscriptions, by = "CustomerID")
+merged_CustSubs
+unique(merged_CustSubs['CustomerID']) #1389 unique CustomerID's in merge (1:N relationship)
+unique(merged_CustSubs['SubscriptionID']) #8252 unique SubscriptionID's in merge (1:1 relationship)
+table(is.na(merged_CustSubs$CustomerID)) #No customerID null values
+table(is.na(merged_CustSubs$SubscriptionID)) #No subscriptionID null values
 
 
 ```
+```{r, exercise 1.3} 
+
+```
+
 
 # Exercise 2: Weibo, a social media dataset 
  
