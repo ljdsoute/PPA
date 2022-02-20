@@ -168,6 +168,13 @@ The figure below plots the age and gender statistics of the general Facebook pop
 
 1. Read  in  the  demographics  of  the  general  Facebook  population  (‘Ex3_demographics.csv’)  and  our  Facebook  sample (‘Ex3.Rdata’). For our Facebook sample, the data consists of two columns: age and genderfemale. The age variable is currently expressed in days, the genderfemale variable resolves to 1 if the gender is female. Transform the age variable such that age is expressed in years and the genderfemale variable such that it is a factor with two factors , namely ‘M’ and ‘V’. 
 
+demographics <- read.csv("Ex3_demographics.csv", header = TRUE, sep = ";")
+load("Ex3.Rdata")
+
+fb_oursample$age = round(fb_oursample$age/365)
+fb_oursample$genderfemale = ifelse(fb_oursample$genderfemale == 1, "F", "M")
+head(fb_oursample)
+
 2. The following age groups are present: 13-24, 25-34, 35-54, and 55+. Transform our Facebook sample such that we have the distribution per age group and gender.
 
 3. Resample our data such that the distribution per age and gender are the same as the whole Facebook population. The best strategy is to determine how many of the total observations of our sample should be present in the current age groups to have the same distribution of the general Facebook population. For example, we have 2000 users  in  our  sample,  if  we  want  the  have  12.76%  of  women  in  the  age  group  13  to  24,  we  should  have  255 observation in this group (12.76% * 2000).   For age groups that are over-represented in our sample, you should select a random sample with the desired size. For example, men between 13-24 are over-represented in our data set, so we take a random sample with sample size equal to  358. For age groups that are under-represented in our  data  set,  we  sample  observations  with  replacement.  For  example,  men  in  the  age  group  55+  are  under-represented, so we sample the observations in this age group with a sample size of 89  (i.e., we create duplicates of these observations).  
