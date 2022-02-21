@@ -177,6 +177,34 @@ head(fb_oursample)
 
 2. The following age groups are present: 13-24, 25-34, 35-54, and 55+. Transform our Facebook sample such that we have the distribution per age group and gender.
 
+min(fb_oursample$age)
+
+fb_oursample$ageCat <- cut(fb_oursample$age, 
+                          breaks = c(0,25,35,55, Inf), 
+                          include.lowest=TRUE, 
+                          labels = c("13-24", "25-34", "35-54", "55+"))
+head(fb_oursample)
+
+library(dplyr)
+library(ggplot2)
+
+fb_oursample$N = sample(c(0,1),2000,replace = TRUE)
+
+fb_oursample %>% 
+  count(genderfemale, ageCat, N) %>% 
+  filter(genderfemale =="F") %>%
+  group_by(ageCat) %>%
+  mutate(Percent = n / sum(n))
+  
+fb_oursample %>% 
+  count(genderfemale, ageCat, N) %>% 
+  filter(genderfemale =="F") %>%
+  group_by(ageCat) %>%
+  mutate(Percent = n / 2000) %>%
+  ggplot(aes(x = ageCat, y = Percent, fill = factor(N)))+
+  geom_col(position = position_dodge())+
+  scale_y_continuous(labels = scales::percent)
+  
 3. Resample our data such that the distribution per age and gender are the same as the whole Facebook population. The best strategy is to determine how many of the total observations of our sample should be present in the current age groups to have the same distribution of the general Facebook population. For example, we have 2000 users  in  our  sample,  if  we  want  the  have  12.76%  of  women  in  the  age  group  13  to  24,  we  should  have  255 observation in this group (12.76% * 2000).   For age groups that are over-represented in our sample, you should select a random sample with the desired size. For example, men between 13-24 are over-represented in our data set, so we take a random sample with sample size equal to  358. For age groups that are under-represented in our  data  set,  we  sample  observations  with  replacement.  For  example,  men  in  the  age  group  55+  are  under-represented, so we sample the observations in this age group with a sample size of 89  (i.e., we create duplicates of these observations).  
 
 4. Plot the graph showing the age and gender distribution for the general Facebook population and our original sample  (i.e.,  recreate  the graph  below).    Also  plot  a  graph  with  the  overall  sex  distribution  for  the  general Facebook  population  and  our  original  sample.  Then  redo  the  same  but  with  your  resampled  data  set.  Did  the sample converge to the desired overall distribution?
