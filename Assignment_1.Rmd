@@ -199,6 +199,26 @@ fb_oursample %>%
   
 3. Resample our data such that the distribution per age and gender are the same as the whole Facebook population. The best strategy is to determine how many of the total observations of our sample should be present in the current age groups to have the same distribution of the general Facebook population. For example, we have 2000 users  in  our  sample,  if  we  want  the  have  12.76%  of  women  in  the  age  group  13  to  24,  we  should  have  255 observation in this group (12.76% * 2000).   For age groups that are over-represented in our sample, you should select a random sample with the desired size. For example, men between 13-24 are over-represented in our data set, so we take a random sample with sample size equal to  358. For age groups that are under-represented in our  data  set,  we  sample  observations  with  replacement.  For  example,  men  in  the  age  group  55+  are  under-represented, so we sample the observations in this age group with a sample size of 89  (i.e., we create duplicates of these observations).  
 
+set.seed(5)
+library(ROSE)
+
+fb_oursample %>% 
+  count(gender, ageCat) %>% 
+  group_by(ageCat) %>%
+  mutate(Percent = n / 2000)
+  
+demographics$Total*2000
+#13-24    243  0.122    0.1276    255   Oversampling
+#25-34    113  0.0565   0.1364    273   Oversampling
+#35-54    151  0.0755   0.1276    255   Oversampling
+#55+       24  0.012    0.0484    97    Oversampling  
+#13-24    917  0.458    0.1792    358   Undersampling##
+#25-34    276  0.138    0.1904    381   Oversampling
+#35-54    247  0.124    0.1456    291   Oversampling
+#55+       29  0.0145   0.0448    90    Oversampling
+
+
+
 4. Plot the graph showing the age and gender distribution for the general Facebook population and our original sample  (i.e.,  recreate  the graph  below).    Also  plot  a  graph  with  the  overall  sex  distribution  for  the  general Facebook  population  and  our  original  sample.  Then  redo  the  same  but  with  your  resampled  data  set.  Did  the sample converge to the desired overall distribution?
 
 ```{r exercise 3}
