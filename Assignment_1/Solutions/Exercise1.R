@@ -1,7 +1,7 @@
 # QUESTIONS ABOUT THIS DOCUMENT: matthias.bogaert@ugent.be
 
 rm(list=ls())
-setwd('D:/2e sem/pred&prescr/gith project/PPA_Assignment_1')
+setwd('D:/2e_sem/PPA/gith_project/PPA/Assignment_1')
 
 if(!require(pacman, quietly = TRUE)) install.packages('pacman') ; require(pacman, quietly = TRUE)
 p_load(tidyverse)
@@ -15,7 +15,7 @@ p_load(tidyverse)
 
 ########Subscriptions
 ###Read in
-subscriptions <- read_delim(file = "subscriptions.txt", 
+subscriptions <- read_delim(file = "Data/subscriptions.txt", 
                             delim = ";",
                             col_names = TRUE,
                             col_types = cols("c",
@@ -41,7 +41,6 @@ subscriptions <- read_delim(file = "subscriptions.txt",
                                              "n"),
                             locale = locale(decimal_mark = "."))
 #subscriptions %>% glimpse()
-
 ###find out if an ID can start with a 0; 
 #if not we can encode it as an integer. Otherwise as character. 
 min(as.integer(str_sub(subscriptions$SubscriptionID,
@@ -73,7 +72,7 @@ subscriptions %>% skim()
 subscriptions %>% skim() %>% summary()
 
 ########Credit
-credit <- read_delim("credit.txt", delim = ";",
+credit <- read_delim("./Data/credit.txt", delim = ";",
                      col_names = TRUE,
                      col_types = 
                        cols("n", "n", "f", "c", "f", "n", "n"))
@@ -83,7 +82,7 @@ credit$ProcessingDate <- dmy(credit$ProcessingDate)
 summary(credit)
 
 ########Customers
-customers <- read_delim(file = "customers.txt", delim=";",
+customers <- read_delim(file = "./Data/customers.txt", delim=";",
                         col_names=TRUE, 
                         col_types =cols("i","f","c","f","c","c"))
 
@@ -92,7 +91,7 @@ customers$DOB <- dmy(customers$DOB)
 #customers %>% glimpse()
 
 ########Complaints
-complaints <- read_delim("complaints.txt", delim =";", 
+complaints <- read_delim("./Data/complaints.txt", delim =";", 
                         col_names = TRUE,
                         col_types = cols("i","i","f","c", "f", "f", "f"))
 
